@@ -3,9 +3,9 @@
 #include <iostream>
 #include <string>
 
-Zombie::Zombie(std::string name) { _name = name; }
+Zombie::Zombie(std::string& name) { _name = name;  std::cout << this->_name << " is construct\n" << std::flush; }
 
-Zombie::~Zombie()	{}
+Zombie::~Zombie()	{ std::cout << this->_name << " is delete\n" << std::flush; }
 
 void	Zombie::announce() const
 {

@@ -13,13 +13,10 @@ void	Harl::complain(std::string	level)
 	{
 		case 0:
 			this->debug();
-			[[fallthrough]];
 		case 1:
 			this->info();
-			[[fallthrough]];
 		case 2:
 			this->warning();
-			[[fallthrough]];
 		case 3:
 			this->error();
 			break ;
