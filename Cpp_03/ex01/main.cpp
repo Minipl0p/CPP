@@ -1,6 +1,7 @@
 
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
+#include <iostream>
 
 int	main (void)
 {
@@ -16,16 +17,16 @@ int	main (void)
 		clappy.takeDamage(1);
 	}
 	{
+		std::cout	<< "\n-----------------Scavy--------------\n" << std::flush;
 		ScavTrap	scavvy("Scavvy");
 		scavvy.attack("Minions");
 		scavvy.attack("Minions");
 		scavvy.takeDamage(4);
 		scavvy.beRepaired(3);
+		scavvy.GuardGate();
 		scavvy.takeDamage(9999);
 		scavvy.beRepaired(99);
 		scavvy.takeDamage(1);
-	}
-	{
-		ClapTrap	cloppy("Pas Ta Clope !");
+		scavvy.GuardGate();
 	}
 }
