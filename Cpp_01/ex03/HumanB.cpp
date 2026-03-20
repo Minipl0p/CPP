@@ -10,3 +10,7 @@ void	HumanB::attack() const
 	}
 	std::cout	<< _name << " attacks with their " << _weaponB->getType() << std::endl;
 }
+
+void	HumanB::setWeapon(Weapon& weapon) {_weaponB = &weapon; };
+HumanB::HumanB(Weapon& weapon, const std::string& name) {_weaponB = &weapon; _name = name; };
+HumanB::HumanB(const std::string& name) { _weaponB = NULL; _name = name; };

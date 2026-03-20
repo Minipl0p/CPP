@@ -9,7 +9,7 @@ class	HumanA
 		std::string	_name;
 		Weapon	*_weaponA;
 	public:
-		HumanA(const std::string& name, Weapon& weapon) {_weaponA = &weapon; _name = name; };
+		HumanA(const std::string& name, Weapon& weapon);
 		~HumanA() {};
 
 		void	attack() const;

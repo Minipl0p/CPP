@@ -9,12 +9,12 @@ class	HumanB
 		std::string	_name;
 		Weapon	*_weaponB;
 	public:
-		HumanB(Weapon& weapon, const std::string& name) {_weaponB = &weapon; _name = name; };
-		HumanB(const std::string& name) { _weaponB = NULL; _name = name; };
+		HumanB(Weapon& weapon, const std::string& name);
+		HumanB(const std::string& name);
 		~HumanB() {};
 
 		void	attack() const;
-		void	setWeapon(Weapon& weapon) {_weaponB = &weapon; };
+		void	setWeapon(Weapon& weapon);
 };
 
 #endif
