@@ -11,6 +11,7 @@ int main()
 	Point c(0, 3);
 	Point p(2, 0);
 
+	
 	if (bsp(a, b, c, p))
 		std::cout << "P is INSIDE of the triangle.\n";
 	else
@@ -18,3 +19,4 @@ int main()
 
 	return 0;
 }
+

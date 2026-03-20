@@ -24,9 +24,13 @@ int	main(int ac, char **av)
 		std::cout	<< "The arg should be an int (overflow not handled)";
 		return 1;
 	}
-	int	N = std::atoi(av[1]);
+	size_t	N = std::atoi(av[1]);
+	std::cout	<< N << std::endl;
 	Zombie	*zHorde = zombieHorde(N, "Roger");
-	for	(int i = 0; i < N; i++)
+	if (!zHorde)
+		return 1;
+	for	(size_t i = 0; i < N; i++)
 		zHorde[i].announce();
 	delete[] zHorde;
+	return 0;
 }
