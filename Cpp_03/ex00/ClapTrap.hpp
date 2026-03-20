@@ -6,13 +6,13 @@
 class	ClapTrap
 {
 	private:
-	std::string	name;
-	size_t		HitPoint;
-	size_t		EnergyPoint;
-	size_t		AttackDmg;
+	std::string	_name;
+	size_t		_HitPoint;
+	size_t		_EnergyPoint;
+	size_t		_AttackDmg;
 	public:
 	ClapTrap();
-	ClapTrap(std::string name);
+	ClapTrap(const std::string& name);
 	ClapTrap(const ClapTrap& cpy);
 	~ClapTrap();
 
