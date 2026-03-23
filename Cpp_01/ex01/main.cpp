@@ -25,7 +25,6 @@ int	main(int ac, char **av)
 		return 1;
 	}
 	size_t	N = std::atoi(av[1]);
-	std::cout	<< N << std::endl;
 	Zombie	*zHorde = zombieHorde(N, "Roger");
 	if (!zHorde)
 		return 1;

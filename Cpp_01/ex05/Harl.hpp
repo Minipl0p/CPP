@@ -1,5 +1,4 @@
 #include <string>
-#include <iostream>
 
 #ifndef HARL_HPP
 #define HARL_HPP
@@ -12,13 +11,13 @@
 class	Harl
 {
 	private:
-		void	debug()	{std::cout	<< DEBUGMSG << std::endl; };
-		void	info()	{std::cout	<< INFOMSG << std::endl; };
-		void	warning()	{std::cout	<< WARNINGMSG << std::endl; };
-		void	error()	{std::cout	<< ERRORMSG << std::endl; };
+		void	debug();
+		void	info();
+		void	warning();
+		void	error();
 	public:
-		Harl()	{};
-		~Harl()	{};
+		Harl();
+		~Harl();
 		void	complain(std::string	level);
 };
 

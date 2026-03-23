@@ -1,5 +1,14 @@
 
 #include "Harl.hpp"
+#include <iostream>
+
+void	Harl::debug()	{std::cout	<< "[ DEBUG ]\n" << DEBUGMSG << std::endl; };
+void	Harl::info()	{std::cout	<< "[ INFO ]\n" << INFOMSG << std::endl; };
+void	Harl::warning()	{std::cout	<< "[ WARNING ]\n" << WARNINGMSG << std::endl; };
+void	Harl::error()	{std::cout	<< "[ ERROR ]\n" << ERRORMSG << std::endl; };
+
+Harl::Harl()	{};
+Harl::~Harl()	{};
 
 void	Harl::complain(std::string	level)
 {

@@ -12,13 +12,13 @@
 class	Harl
 {
 	private:
-		void	debug()	{std::cout	<< "[ DEBUG ] \n " << DEBUGMSG << std::endl; };
-		void	info()	{std::cout	<< "[ INFO ] \n " << INFOMSG << std::endl; };
-		void	warning()	{std::cout	<< "[ WARNING ] \n " << WARNINGMSG << std::endl; };
-		void	error()	{std::cout	<< "[ ERROR ] \n " << ERRORMSG << std::endl; };
+		void	debug();
+		void	info();
+		void	warning();
+		void	error();
 	public:
-		Harl()	{};
-		~Harl()	{};
+		Harl();
+		~Harl();
 		void	complain(std::string	level);
 };
 

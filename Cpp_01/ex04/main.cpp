@@ -33,6 +33,12 @@ int	main(int ac, char **av)
 	// READ, SEARCH AND REPLACE
 	std::string	line;
 	std::string	toFind = av[2];
+	if (toFind.empty())
+	{
+		replaceFile.close();
+		infile.close();
+		return 1;
+	}
 
 	while (std::getline(infile, line))
 	{
