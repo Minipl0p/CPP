@@ -44,6 +44,8 @@ FragTrap::~FragTrap() {std::cout	<< _name << " destructed (Frag)" << std::endl; 
 
 FragTrap&	FragTrap::operator=(const FragTrap& obj)
 {
+	if (this == &obj)
+		return (*this);
 	_name = obj._name;
 	_HitPoint = obj._HitPoint;
 	_EnergyPoint = obj._EnergyPoint;

@@ -44,6 +44,8 @@ ScavTrap::~ScavTrap() {std::cout	<< _name << " destructed (Scav)" << std::endl; 
 
 ScavTrap&	ScavTrap::operator=(const ScavTrap& obj)
 {
+	if (this == &obj)
+		return (*this);
 	_name = obj._name;
 	_HitPoint = obj._HitPoint;
 	_EnergyPoint = obj._EnergyPoint;

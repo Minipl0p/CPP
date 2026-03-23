@@ -1,5 +1,6 @@
 
 #include "ClapTrap.hpp"
+#include "DiamondTrap.hpp"
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
 #include <iostream>
@@ -42,6 +43,22 @@ int	main (void)
 		fraggy.beRepaired(99);
 		fraggy.takeDamage(1);
 		fraggy.HighFivesGuys();
-
+	}
+	{
+		std::cout	<< "\n-----------------Fraggy--------------\n" << std::flush;
+		DiamondTrap	diamond("Diammy");
+		diamond.attack("Minions");
+		diamond.attack("Minions");
+		diamond.takeDamage(4);
+		diamond.beRepaired(3);
+		diamond.GuardGate();
+		diamond.HighFivesGuys();
+		diamond.whoAmI();
+		diamond.takeDamage(9999);
+		diamond.beRepaired(99);
+		diamond.takeDamage(1);
+		diamond.GuardGate();
+		diamond.HighFivesGuys();
+		diamond.whoAmI();
 	}
 }

@@ -34,10 +34,12 @@ DiamondTrap::DiamondTrap(const DiamondTrap& cpy) : ClapTrap(cpy), FragTrap(cpy),
 
 void		DiamondTrap::attack(const	std::string& target) { ScavTrap::attack(target); }
 
-DiamondTrap::~DiamondTrap() {std::cout	<< _name << " destructed (Scav)" << std::endl; }
+DiamondTrap::~DiamondTrap() {std::cout	<< _name << " destructed (Diam)" << std::endl; }
 
 DiamondTrap&	DiamondTrap::operator=(const DiamondTrap& obj)
 {
+	if (this == &obj)
+		return (*this);
 	_name = obj._name;
 	_HitPoint = obj._HitPoint;
 	_EnergyPoint = obj._EnergyPoint;
@@ -48,6 +50,9 @@ DiamondTrap&	DiamondTrap::operator=(const DiamondTrap& obj)
 
 void		DiamondTrap::whoAmI()
 {
-	std::cout	<< "Clap_name is : " << ClapTrap::_name
-				<< "\nDiamond_name is : " << _name << std::endl;
+	if (this->_HitPoint > 0)
+		std::cout	<< "Clap_name is : " << ClapTrap::_name
+					<< "\nDiamond_name is : " << _name << std::endl;
+	else
+		std::cout	<< "... *Nothing happens*\n" << std::flush;
 }

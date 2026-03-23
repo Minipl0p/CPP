@@ -15,6 +15,8 @@ ClapTrap::~ClapTrap() { std::cout	<< _name << " destructed\n" << std::flush; }
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap& obj)
 {
+	if (this == &obj)
+		return (*this);
 	_name = obj._name;
 	_HitPoint = 10;
 	_EnergyPoint = 10;

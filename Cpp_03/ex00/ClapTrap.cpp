@@ -15,11 +15,14 @@ ClapTrap::~ClapTrap() { std::cout	<< _name << " destructed\n" << std::flush; }
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap& obj)
 {
-	_name = obj._name;
-	_HitPoint = 10;
-	_EnergyPoint = 10;
-	_AttackDmg = 0;
-	std::cout	<< _name << " constructed (by copy)" << std::endl;
+	if (this != &obj)
+	{
+		_name = obj._name;
+		_HitPoint = 10;
+		_EnergyPoint = 10;
+		_AttackDmg = 0;
+		std::cout	<< _name << " constructed (by copy)" << std::endl;
+	}
 	return (*this);
 }
 
