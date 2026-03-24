@@ -37,7 +37,7 @@ int	main()
 	doggy->setIdeas(1, "BOOOOOOOOOONNNNNNNESSSSSSSSS");
 	doggy->setIdeas(2, "Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me");
 	for (int i = 0; i < 5; i++)
-		std::cout	<< i << "ideas is : "<<	doggy->getIdeas(i) << std::endl;
+		std::cout	<< i << "st ideas is : "<<	doggy->getIdeas(i) << std::endl;
 	delete doggy;
 	return 0;
 }
