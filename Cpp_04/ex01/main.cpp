@@ -9,29 +9,35 @@
 
 int	main()
 {
+	//Constructing animals
+	Animal	*arr[10];
+	for (int i = 0; i < 10; i++)
 	{
-		std::cout	<< "---------------TEST 1--------------------" << std::endl;
-		const Animal* meta = new Animal();
-		const Animal* j = new Dog();
-		const Animal* i = new Cat();
-		std::cout << j->getType() << " " << std::endl;
-		j->makeSound();
-		std::cout << i->getType() << " " << std::endl;
-		i->makeSound(); //will output the cat sound!
-		meta->makeSound();
-		delete meta;
-		delete i;
-		delete j;
+		if (i % 2 == 0)
+			arr[i] = new Cat();
+		else
+			arr[i] = new Dog();
 	}
+
+	//Testing animals
+	for (int i = 0; i < 10; i++)
 	{
-		std::cout	<< "\n---------------TEST 3--------------------" << std::endl;
-		const WrongAnimal* meta = new WrongAnimal();
-		const WrongAnimal*	k = new WrongCat();
-		std::cout << k->getType() << " " << std::endl;
-		k->makeSound();
-		meta->makeSound();
-		delete meta;
-		delete k;
+		std::cout	<< arr[i]->getType() << "No : " << i << "says :\t" << std::flush;
+		arr[i]->makeSound();
+		std::cout	<< std::endl;
 	}
+	//deleting like the subject ask
+	for (int i = 0; i < 10; i++)
+		delete arr[i];
+
+	std::cout	<< std::endl;
+
+	Dog	*doggy = new Dog();
+	doggy->setIdeas(0, "I think, so i want food");
+	doggy->setIdeas(1, "BOOOOOOOOOONNNNNNNESSSSSSSSS");
+	doggy->setIdeas(2, "Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me Pet me");
+	for (int i = 0; i < 5; i++)
+		std::cout	<< i << "ideas is : "<<	doggy->getIdeas(i) << std::endl;
+	delete doggy;
 	return 0;
 }
