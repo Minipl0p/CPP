@@ -8,12 +8,12 @@ Cat::~Cat()
 	std::cout	<< "Cat destructor" << std::endl;
 	delete	this->brain;
 }
-Cat::Cat()							: Animal("Cat")
+Cat::Cat()							: AAnimal("Cat")
 {
 	this->brain = new Brain();
 	std::cout	<< _type << " Cat Default_constuctor" << std::endl;
 }
-Cat::Cat(const Cat& src)			: Animal(src)
+Cat::Cat(const Cat& src)			: AAnimal(src)
 {
 	this->brain = new Brain(*src.brain);
 	_type = src._type;

@@ -8,12 +8,12 @@ Dog::~Dog()
 	std::cout	<< "Dog destructor;" << std::endl;
 	delete	this->brain;
 }
-Dog::Dog()							: Animal("Dog")
+Dog::Dog()							: AAnimal("Dog")
 {
 	this->brain = new Brain();
 	std::cout	<< _type << " Dog Default_constuctor" << std::endl;
 }
-Dog::Dog(const Dog& src)			: Animal(src)
+Dog::Dog(const Dog& src)			: AAnimal(src)
 {
 	this->brain = new Brain(*src.brain);
 	_type = src._type;
@@ -28,6 +28,6 @@ Dog&	Dog::operator=(const Dog& src)
 	return (*this);
 }
 
-void	Dog::makeSound() const	{ std::cout	<< "*Bark* *BARK*" << std::endl; }
+void	Dog::makeSound() const	{ std::cout	<< "*Bark* *BAARK*" << std::endl; }
 void			Dog::setIdeas(int idx, const std::string& ideas)	{ this->brain->setIdeas(idx, ideas); }
 std::string		Dog::getIdeas(int idx) const						{ return this->brain->getIdeas(idx); }
