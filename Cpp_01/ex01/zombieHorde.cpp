@@ -1,5 +1,5 @@
 
-#include "zombie.hpp"
+#include "Zombie.hpp"
 #include <iostream>
 
 Zombie	*zombieHorde(size_t N, std::string name)
