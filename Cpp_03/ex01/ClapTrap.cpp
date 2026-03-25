@@ -2,13 +2,16 @@
 #include "ClapTrap.hpp"
 #include <iostream>
 
-ClapTrap::ClapTrap() : _name("Clappy"), _HitPoint(10), _EnergyPoint(10), _AttackDmg(0) {
+ClapTrap::ClapTrap() : _HitPoint(10), _EnergyPoint(10), _AttackDmg(0) {
+	_name = "Clappy";
 	std::cout	<< _name << " constructed (default)" << std::endl; }
 
-ClapTrap::ClapTrap(const std::string& name) : _name(name), _HitPoint(10), _EnergyPoint(10), _AttackDmg(0) {
+ClapTrap::ClapTrap(const std::string& name) :  _HitPoint(10), _EnergyPoint(10), _AttackDmg(0) {
+	_name = name;
 	std::cout	<< _name << " constructed (by name)" << std::endl; }
 
-ClapTrap::ClapTrap(const ClapTrap& cpy) : _name(cpy._name), _HitPoint(10), _EnergyPoint(10), _AttackDmg(0) {
+ClapTrap::ClapTrap(const ClapTrap& cpy) : _HitPoint(10), _EnergyPoint(10), _AttackDmg(0) {
+	_name = cpy._name;
 	std::cout	<< _name << " constructed (by copy)" << std::endl; }
 
 ClapTrap::~ClapTrap() { std::cout	<< _name << " destructed\n" << std::flush; }
