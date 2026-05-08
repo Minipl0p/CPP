@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include "../includes/AMateria.hpp"
 #include "../includes/Ice.hpp"
 #include "../includes/Cure.hpp"
@@ -8,91 +7,174 @@
 #include "../includes/IMateriaSource.hpp"
 #include "../includes/MateriaSource.hpp"
 
-int	main(void)
+#include <iostream>
+
+int main(void)
 {
-	std::cout << std::endl << "############ creating a new spellbook ############" << std::endl << std::endl;
-	MateriaSource *spellBook = new MateriaSource();
-	spellBook->learnMateria(new Ice());
-	spellBook->learnMateria(new Cure());
+	std::cout << "\n=== CAS 1 : test officiel du sujet ===" << std::endl;
+	{
+		IMateriaSource* src = new MateriaSource();
+		src->learnMateria(new Ice());
+		src->learnMateria(new Cure());
 
-	std::cout << std::endl << "############ copying spellbook ############" << std::endl << std::endl;
-	IMateriaSource *spellBookCopy = new MateriaSource(*spellBook);
+		ICharacter* me = new Character("me");
 
-	std::cout << std::endl << "############ learn new spells in spellbook ############" << std::endl << std::endl;
-	spellBook->learnMateria(new Cure());
-	spellBook->learnMateria(new Ice());
-	spellBook->learnMateria(new Cure());
-	spellBook->learnMateria(new Ice());
+		AMateria* tmp;
+		tmp = src->createMateria("ice");
+		me->equip(tmp);
+		tmp = src->createMateria("cure");
+		me->equip(tmp);
 
-	std::cout << std::endl << "############ learn new spells in spellbook-copy ############" << std::endl << std::endl;
-	spellBookCopy->learnMateria(new Cure());
-	spellBookCopy->learnMateria(new Cure());
-	spellBookCopy->learnMateria(new Cure());
+		ICharacter* bob = new Character("bob");
+		me->use(0, *bob);
+		me->use(1, *bob);
 
-	std::cout << std::endl << "############ creating the new character Bomboclat ############" << std::endl << std::endl;
-	AMateria *tmp;
-	Character *Bomboclat = new Character("Bomboclat");
+		delete bob;
+		delete me;
+		delete src;
+	}
 
-	tmp = spellBookCopy->createMateria("cure");
-	Bomboclat->equip(tmp);
-	tmp = spellBookCopy->createMateria("ice");
-	Bomboclat->equip(tmp);
+	std::cout << "\n=== CAS 2 : inventaire plein ===" << std::endl;
+	{
+		IMateriaSource* src = new MateriaSource();
+		src->learnMateria(new Ice());
+		src->learnMateria(new Cure());
 
+		ICharacter* hero = new Character("hero");
+		hero->equip(src->createMateria("ice"));
+		hero->equip(src->createMateria("cure"));
+		hero->equip(src->createMateria("ice"));
+		hero->equip(src->createMateria("cure"));
+		AMateria* rejected = src->createMateria("ice");
+		hero->equip(rejected);
+		delete rejected;
 
+		delete hero;
+		delete src;
+	}
 
-	std::cout << std::endl << "############ copy the a new character Bomboclat ############" << std::endl << std::endl;
-	Character *BomboclatCopy = new Character(*Bomboclat);
+	std::cout << "\n=== CAS 3 : index invalide ===" << std::endl;
+	{
+		ICharacter* hero = new Character("hero");
+		ICharacter* target = new Character("target");
 
-	BomboclatCopy->use(1, *Bomboclat);
-	BomboclatCopy->use(0, *Bomboclat);
-	Bomboclat->unequip(1);
-	delete tmp;
+		hero->use(0, *target);
+		hero->use(42, *target);
+		hero->unequip(0);
+		hero->unequip(42);
 
+		delete hero;
+		delete target;
+	}
 
-	std::cout << std::endl << "############ creating a new character DarckVador ############" << std::endl << std::endl;
-	ICharacter* darckvador = new Character("DarckVador");
+	// ═══════════════════════════════════════════
+	// CAS 4 : unequip puis re-equip
+	// ═══════════════════════════════════════════
+	std::cout << "\n=== CAS 4 : unequip puis re-equip ===" << std::endl;
+	{
+		IMateriaSource* src = new MateriaSource();
+		src->learnMateria(new Ice());
+		src->learnMateria(new Cure());
 
-	tmp = spellBookCopy->createMateria("ice");
-	darckvador->equip(tmp);
-	tmp = spellBookCopy->createMateria("cure");
-	darckvador->equip(tmp);
-	tmp = spellBookCopy->createMateria("ice");
-	darckvador->equip(tmp);
-	tmp = spellBookCopy->createMateria("cure");
-	darckvador->equip(tmp);
-	tmp = spellBookCopy->createMateria("cure");
-	darckvador->equip(tmp);
-	delete tmp;
-	tmp = spellBookCopy->createMateria("cure");
-	darckvador->equip(tmp);
-	delete tmp;
-	tmp = spellBookCopy->createMateria("ice");
-	darckvador->equip(tmp);
-	delete tmp;
+		ICharacter* hero = new Character("hero");
+		ICharacter* target = new Character("target");
 
-	std::cout << std::endl << "############ creating a new character SpongeBob ############" << std::endl << std::endl;
-	ICharacter *spongebob = new Character("SpongeBob");
-	darckvador->use(0, *spongebob);
-	darckvador->use(1, *spongebob);
-	spongebob->use(0, *darckvador);
-	spongebob->use(1, *darckvador);
+		hero->equip(src->createMateria("ice"));
+		hero->equip(src->createMateria("cure"));
+		hero->use(0, *target);
+		hero->unequip(0);
+		hero->equip(src->createMateria("cure"));
+		hero->use(0, *target);
 
-	std::cout << std::endl << "############ destroying Bomboclat-copy ############" << std::endl << std::endl;
-	delete BomboclatCopy;
+		delete hero;
+		delete target;
+		delete src;
+	}
 
-	std::cout << std::endl << "############ destroying Bomboclat-copy ############" << std::endl << std::endl;
-	delete Bomboclat;
+	// ═══════════════════════════════════════════
+	// CAS 5 : deep copy de Character
+	// ═══════════════════════════════════════════
+	std::cout << "\n=== CAS 5 : deep copy Character ===" << std::endl;
+	{
+		IMateriaSource* src = new MateriaSource();
+		src->learnMateria(new Ice());
+		src->learnMateria(new Cure());
 
-	std::cout << std::endl << "############ destroying SpongeBob ############" << std::endl << std::endl;
-	delete spongebob;
+		Character* a = new Character("A");
+		a->equip(src->createMateria("ice"));
+		a->equip(src->createMateria("cure"));
 
-	std::cout << std::endl << "############ destroying DarckVador ############" << std::endl << std::endl;
-	delete darckvador;
+		Character* b = new Character(*a);
+		ICharacter* target = new Character("target");
 
-	std::cout << std::endl << "############ destroying spellbook ############" << std::endl << std::endl;
-	delete spellBook;
+		b->use(0, *target);
+		delete a;
+		b->use(1, *target);
 
-	std::cout << std::endl << "############ destroying spellbook Copy ############" << std::endl << std::endl;
-	delete spellBookCopy;
-	return (0);
+		Character* c = new Character("C");
+		*c = *b;
+		delete b;
+		c->use(0, *target);
+
+		delete c;
+		delete target;
+		delete src;
+	}
+
+	// ═══════════════════════════════════════════
+	// CAS 6 : deep copy de MateriaSource
+	// ═══════════════════════════════════════════
+	std::cout << "\n=== CAS 6 : deep copy MateriaSource ===" << std::endl;
+	{
+		MateriaSource* src1 = new MateriaSource();
+		src1->learnMateria(new Ice());
+		src1->learnMateria(new Cure());
+
+		MateriaSource* src2 = new MateriaSource(*src1);
+		delete src1;
+
+		ICharacter* hero = new Character("hero");
+		ICharacter* target = new Character("target");
+		hero->equip(src2->createMateria("ice"));
+		hero->equip(src2->createMateria("cure"));
+		hero->use(0, *target);
+		hero->use(1, *target);
+
+		delete hero;
+		delete target;
+		delete src2;
+	}
+
+	// ═══════════════════════════════════════════
+	// CAS 7 : type inconnu dans createMateria
+	// ═══════════════════════════════════════════
+	std::cout << "\n=== CAS 7 : type inconnu ===" << std::endl;
+	{
+		IMateriaSource* src = new MateriaSource();
+		AMateria* unknown = src->createMateria("fire");
+		if (unknown == NULL)
+			std::cout << "createMateria(\"fire\") retourne NULL : OK" << std::endl;
+
+		ICharacter* hero = new Character("hero");
+		hero->equip(unknown);
+		delete hero;
+		delete src;
+	}
+
+	// ═══════════════════════════════════════════
+	// CAS 8 : destruction via pointeur d'interface
+	// ═══════════════════════════════════════════
+	std::cout << "\n=== CAS 8 : delete via ICharacter* ===" << std::endl;
+	{
+		IMateriaSource* src = new MateriaSource();
+		src->learnMateria(new Ice());
+
+		ICharacter* hero = new Character("hero");
+		hero->equip(src->createMateria("ice"));
+
+		delete hero;
+		delete src;
+	}
+
+	return 0;
 }

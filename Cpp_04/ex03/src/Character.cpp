@@ -10,6 +10,9 @@ Character::Character(std::string NAME) : _name(NAME)
 	for (int i = 0; i < 4; i++)
 		this->_slots[i] = NULL;
 	this->_last_idx = 0;
+	for (int i = 0; i < 4; i++)
+		this->_floor[i] = NULL;
+	this->_last_floor = 0;
 }
 
 Character::~Character(void)
@@ -18,12 +21,17 @@ Character::~Character(void)
 		if (this->_slots[i] != NULL)
 			delete this->_slots[i];
 	}
+	for (int i = 0; i < _last_floor; i++)
+		if (this->_floor[i] != NULL)
+			delete this->_floor[i];
 }
 
 Character::Character(const Character &cpy)
 {
 	for (int i = 0; i < 4; i++)
 		this->_slots[i] = NULL;
+	for (int i = 0; i < 4; i++)
+		this->_floor[i] = NULL;
 	*this = cpy;
 }
 
@@ -33,16 +41,21 @@ Character	&Character::operator=(const Character &src)
 		return *this;
 	this->_name = src.getName();
 	this->_last_idx = 0;
-	for (int i = 0; i < 4; i++)
-	{
-		if (src._slots[i] != NULL) {
-			if (this->_slots[i] != NULL)
-				delete this->_slots[i];
-			this->_slots[i] = src._slots[i]->clone();
-		}
-		else
+	for (int i = 0; i < 4; i++) {
+		if (this->_slots[i] != NULL) {
+			delete this->_slots[i];
 			this->_slots[i] = NULL;
+		}
 	}
+	for (int i = 0; i < this->_last_floor; i++) {
+		if (this->_floor[i] != NULL) {
+			delete this->_floor[i];
+			this->_floor[i] = NULL;
+		}
+	}
+	this->_last_floor = 0;
+	for (int i = 0; i < 4; i++)
+		this->_slots[i] = src._slots[i] ? src._slots[i]->clone() : NULL;
 	return *this;
 }
 
@@ -73,6 +86,16 @@ void Character::unequip(int idx)
 		std::cout << "\e[31mYou cannot unequip an item with an index >= 4\e[0m" << std::endl; }
 	else if (this->_slots[idx] == NULL) {
 		std::cout << "\e[31mYou cannot unequip an item NULL\e[0m" << std::endl; }
+	else if (_last_floor < 1000)
+	{
+		this->_floor[_last_floor++] = this->_slots[idx];
+		this->_slots[idx] = NULL;
+	}
+	else if (_last_floor == 1000)
+	{
+		delete this->_slots[idx];
+		_slots[idx] = NULL;
+	}
 	else
 		this->_slots[idx] = NULL;
 }

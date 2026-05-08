@@ -9,8 +9,10 @@ class Character : public ICharacter
 {
 	private:
 		AMateria *_slots[4];
-		std::string _name;
 		int _last_idx;
+		std::string _name;
+		AMateria *_floor[1000];
+		int	_last_floor;
 	public:
 		Character(void);
 		Character(std::string name);
