@@ -1,0 +1,50 @@
+[
+ {
+  "directory": "/home/pchazalm/Documents/cercle 04/CPP/Cpp_03/ex01",
+  "arguments": [
+   "c++",
+   "-g",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-std=c++98",
+   "-c",
+   "main.cpp",
+   "-o",
+   ".obj/main.o"
+  ],
+  "file": "main.cpp"
+ },
+ {
+  "directory": "/home/pchazalm/Documents/cercle 04/CPP/Cpp_03/ex01",
+  "arguments": [
+   "c++",
+   "-g",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-std=c++98",
+   "-c",
+   "ClapTrap.cpp",
+   "-o",
+   ".obj/ClapTrap.o"
+  ],
+  "file": "ClapTrap.cpp"
+ },
+ {
+  "directory": "/home/pchazalm/Documents/cercle 04/CPP/Cpp_03/ex01",
+  "arguments": [
+   "c++",
+   "-g",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-std=c++98",
+   "-c",
+   "ScavTrap.cpp",
+   "-o",
+   ".obj/ScavTrap.o"
+  ],
+  "file": "ScavTrap.cpp"
+ }
+]

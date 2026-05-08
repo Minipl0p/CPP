@@ -15,6 +15,7 @@ FragTrap::FragTrap(const std::string& name) : ClapTrap(name)
 {
 	_HitPoint = 100;
 	_AttackDmg = 30;
+	std::cout	<< " DEBUG ::::" << _AttackDmg << std::endl;
 	_EnergyPoint = 100;
 	std::cout	<< _name << " constructed (Frag-by name)" << std::endl;
 }

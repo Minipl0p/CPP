@@ -11,6 +11,7 @@ DiamondTrap::DiamondTrap() : ClapTrap("_clap_name"), FragTrap(), ScavTrap()
 	_name = "Default";
 	_HitPoint = FragTrap::_HitPoint;
 	_AttackDmg = FragTrap::_AttackDmg;
+	std::cout	<< " DEBUG ::::" << FragTrap::_AttackDmg << std::endl;
 	_EnergyPoint = ScavTrap::_EnergyPoint;
 }
 
@@ -20,6 +21,7 @@ DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"
 	_name = name;
 	_HitPoint = FragTrap::_HitPoint;
 	_AttackDmg = FragTrap::_AttackDmg;
+	std::cout	<< "DEBUG ::: "<< _AttackDmg << std::endl;
 	_EnergyPoint = ScavTrap::_EnergyPoint;
 }
 
