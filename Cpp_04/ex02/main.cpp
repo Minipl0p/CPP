@@ -10,7 +10,7 @@
 int	main()
 {
 	//Constructing animals
-	Animal	*arr[10];
+	AAnimal	*arr[10];
 	for (int i = 0; i < 10; i++)
 	{
 		if (i % 2 == 0)

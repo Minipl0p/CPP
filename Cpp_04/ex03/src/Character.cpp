@@ -32,6 +32,7 @@ Character::Character(const Character &cpy)
 		this->_slots[i] = NULL;
 	for (int i = 0; i < 4; i++)
 		this->_floor[i] = NULL;
+	this->_last_floor = cpy._last_floor;
 	*this = cpy;
 }
 
