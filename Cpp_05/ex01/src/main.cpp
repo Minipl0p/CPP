@@ -1,104 +1,57 @@
 
 #include "../includes/Bureaucrat.hpp"
+#include "../includes/Form.hpp"
 #include <iostream>
 
 int main()
 {
-	std::cout << "--- Test 1 : création valide ---" << std::endl;
+	std::cout << "\n=== Test 1: Form valide ===" << std::endl;
 	try {
-		Bureaucrat b("Alice", 42);
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Form f("TaxForm", 50, 25);
+		std::cout << f << std::endl;
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
-	std::cout << "\n--- Test 2 : grade trop haut (0) ---" << std::endl;
+	std::cout << "\n=== Test 2: Form grade trop haut (0) ===" << std::endl;
 	try {
-		Bureaucrat b("Bob", 0);
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Form f("BadForm", 0, 25);
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
-	std::cout << "\n--- Test 3 : grade trop bas (151) ---" << std::endl;
+	std::cout << "\n=== Test 3: Form grade trop bas (151) ===" << std::endl;
 	try {
-		Bureaucrat b("Charlie", 151);
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Form f("BadForm", 50, 151);
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
-	std::cout << "\n--- Test 4 : increment jusqu'au max ---" << std::endl;
+	std::cout << "\n=== Test 4: Bureaucrat signe avec grade suffisant ===" << std::endl;
 	try {
-		Bureaucrat b("Dave", 2);
-		std::cout << b << std::endl;
-		b.incrementGrade();
-		std::cout << b << std::endl;
-		b.incrementGrade(); // grade 1 -> throw
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Bureaucrat b("Alice", 30);
+		Form f("TaxForm", 50, 25);
+		b.signForm(f);
+		std::cout << f << std::endl;
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
-	std::cout << "\n--- Test 5 : decrement jusqu'au min ---" << std::endl;
+	std::cout << "\n=== Test 5: Bureaucrat grade insuffisant ===" << std::endl;
 	try {
-		Bureaucrat b("Eve", 149);
-		std::cout << b << std::endl;
-		b.decrementGrade();
-		std::cout << b << std::endl;
-		b.decrementGrade(); // grade 150 -> throw
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Bureaucrat b("Bob", 100);
+		Form f("TaxForm", 50, 25);
+		b.signForm(f);
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
-	std::cout << "\n--- Test 6 : constructeur par défaut ---" << std::endl;
+	std::cout << "\n=== Test 6: Formulaire deja signe ===" << std::endl;
 	try {
-		Bureaucrat b;
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Bureaucrat b("Alice", 1);
+		Form f("TaxForm", 50, 25);
+		b.signForm(f);
+		b.signForm(f);
+		std::cout << f << std::endl;
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
-	std::cout << "\n--- Test 7 : constructeur par copie ---" << std::endl;
+	std::cout << "\n=== Test 7: Copy constructor ===" << std::endl;
 	try {
-		Bureaucrat a("Anne", 10);
-		Bureaucrat b(a);
-		std::cout << a << std::endl;
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
-
-	std::cout << "\n--- Test 8 : operator = ---" << std::endl;
-	try {
-		Bureaucrat a("Frank", 10);
-		Bureaucrat b;
-		b = a;
-		std::cout << a << std::endl;
-		std::cout << b << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
-
-	std::cout << "\n--- Test 9 : grades limites valides (1 et 150) ---" << std::endl;
-	try {
-		Bureaucrat high("Grace", 1);
-		Bureaucrat low("Hank", 150);
-		std::cout << high << std::endl;
-		std::cout << low << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+		Form f1("Contract", 40, 20);
+		Form f2(f1);
+		std::cout << f1 << std::endl;
+		std::cout << f2 << std::endl;
+	} catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
 	return 0;
 }
