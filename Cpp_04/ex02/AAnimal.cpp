@@ -1,13 +1,13 @@
 
-#include "Animal.hpp"
+#include "AAnimal.hpp"
 #include <iostream>
 #include <string>
 
-Animal::~Animal()						{ std::cout	<< "Animal destructor;" << std::endl; }
-Animal::Animal()						{ _type = "Generic"; std::cout	<< _type << " Animal Default_constructor" << std::endl; }
-Animal::Animal(const std::string& type)	{ _type = type; std::cout << _type << " Animal constructor" << std::endl; }
-Animal::Animal(const Animal& src)		{ _type = src._type; std::cout << _type << " Animal constructor by copy" << std::endl;}
-Animal&	Animal::operator=(const Animal& src)
+AAnimal::~AAnimal()						{ std::cout	<< "Animal destructor;" << std::endl; }
+AAnimal::AAnimal()						{ _type = "Generic"; std::cout	<< _type << " Animal Default_constructor" << std::endl; }
+AAnimal::AAnimal(const std::string& type)	{ _type = type; std::cout << _type << " Animal constructor" << std::endl; }
+AAnimal::AAnimal(const AAnimal& src)		{ _type = src._type; std::cout << _type << " Animal constructor by copy" << std::endl;}
+AAnimal&	AAnimal::operator=(const AAnimal& src)
 {
 	if (this == &src)
 		return (*this);
@@ -15,4 +15,4 @@ Animal&	Animal::operator=(const Animal& src)
 	return (*this);
 }
 
-std::string	Animal::getType() const		{ return _type; }
+std::string	AAnimal::getType() const		{ return _type; }
