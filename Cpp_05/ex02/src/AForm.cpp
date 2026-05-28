@@ -54,9 +54,9 @@ void AForm::execute(Bureaucrat const &executor) const
 {
 	if (!this->isSigned)
 		throw AForm::FormNotSignedException();
-	if (executor.getGrade() > this->getGradeExecuteNeed())
+	if (executor.getGrade() > this->getExecLimit())
 		throw AForm::GradeTooLowException();
-	executeAction();
+	executeForm();
 }
 
 const char *AForm::GradeTooHighException::what() const throw()

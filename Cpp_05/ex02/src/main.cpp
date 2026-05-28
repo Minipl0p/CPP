@@ -8,8 +8,6 @@
 
 int main()
 {
-    srand(time(0));
-
     // ═══════════════════════════════════════════
     // Test 1: ShrubberyCreationForm - cas normal
     // ═══════════════════════════════════════════
@@ -29,7 +27,7 @@ int main()
     try {
         Bureaucrat          b("Bob", 1);
         ShrubberyCreationForm f("park");
-        b.executeForm(f); // pas signé → erreur
+        b.executeForm(f);
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
     // ═══════════════════════════════════════════
@@ -39,7 +37,7 @@ int main()
     try {
         Bureaucrat          b("Charlie", 150);
         ShrubberyCreationForm f("forest");
-        b.signForm(f); // grade 150 < requis 145 → echec
+        b.signForm(f);
         b.executeForm(f);
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
@@ -52,7 +50,7 @@ int main()
         Bureaucrat          exec("Exec", 150);
         ShrubberyCreationForm f("hill");
         signer.signForm(f);
-        exec.executeForm(f); // grade 150 > requis 137 → echec
+        exec.executeForm(f);
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
     // ═══════════════════════════════════════════
@@ -76,7 +74,7 @@ int main()
     try {
         Bureaucrat          b("Eve", 100);
         RobotomyRequestForm f("robot");
-        b.signForm(f); // grade 100 > requis 72 → echec
+        b.signForm(f);
         b.executeForm(f);
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
@@ -100,14 +98,14 @@ int main()
         Bureaucrat             exec("Exec", 10);
         PresidentialPardonForm f("Arthur Dent");
         signer.signForm(f);
-        exec.executeForm(f); // grade 10 > requis 5 → echec
+        exec.executeForm(f);
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 
     // ═══════════════════════════════════════════
     // Test 9: AForm est abstraite (ne compile pas si décommenté)
     // ═══════════════════════════════════════════
     std::cout << "\n=== Test 9: AForm abstraite ===" << std::endl;
-    // AForm f("test", 1, 1); // ← doit être impossible → erreur de compilation
+    // AForm f("test", 1, 1);
 
     // ═══════════════════════════════════════════
     // Test 10: Constructeur invalide (grade hors limites)

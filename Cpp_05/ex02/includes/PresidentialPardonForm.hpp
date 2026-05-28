@@ -16,5 +16,5 @@ class PresidentialPardonForm : public AForm {
 		PresidentialPardonForm(const PresidentialPardonForm &cpy);
 
 		std::string	getTarget(void) const;
-		void		executeAction(void) const;
+		void		executeForm(void) const;
 };

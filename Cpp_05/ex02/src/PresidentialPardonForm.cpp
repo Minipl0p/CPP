@@ -7,8 +7,7 @@ PresidentialPardonForm::PresidentialPardonForm(std::string _target) : AForm("Pre
 
 PresidentialPardonForm::~PresidentialPardonForm(void) {}
 
-PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm &cpy) : AForm(cpy.getName(), cpy.getGradeLimit(), cpy.getExecLimit()), _target(cpy.getTarget())
-{ *this = cpy; }
+PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm &cpy) : AForm(cpy.getName(), cpy.getGradeLimit(), cpy.getExecLimit()), _target(cpy.getTarget()) {}
 
 PresidentialPardonForm	&PresidentialPardonForm::operator=(const PresidentialPardonForm &src)
 {
@@ -23,7 +22,7 @@ std::string PresidentialPardonForm::getTarget(void) const
 	return this->_target;
 }
 
-void PresidentialPardonForm::executeAction(void) const
+void PresidentialPardonForm::executeForm(void) const
 {
 	std::cout << this->getTarget() << " has been pardoned by Zaphod Beeblebrox, Zaphod is the former Doc" << std::endl;
 }

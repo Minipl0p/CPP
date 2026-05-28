@@ -25,16 +25,27 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& src)
 	return *this;
 }
 
-void Bureaucrat::signForm(Form& form)
+void Bureaucrat::signForm(AForm& form)
 {
 	try
 	{
 		form.beSigned(*this);
 		std::cout << _name << " signed " << form.getName() << std::endl;
 	}
-	catch (Form::GradeTooLowException& e)
+	catch (AForm::GradeTooLowException& e)
 	{
 		std::cout << _name << " couldn't sign " << form.getName()
+			<< " because " << e.what() << std::endl;
+	}
+}
+
+void Bureaucrat::executeForm(AForm const & form)
+{
+	try {
+		form.execute(*this);
+		std::cout << _name << " executed " << form.getName() << std::endl;
+	} catch (std::exception& e) {
+		std::cout << _name << " couldn't execute " << form.getName()
 			<< " because " << e.what() << std::endl;
 	}
 }
