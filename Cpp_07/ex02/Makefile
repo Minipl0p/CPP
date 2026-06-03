@@ -6,7 +6,6 @@ CXXFLAGS    = -g -Wall -Wextra -Werror -std=c++98
 SRCSDIR     = src/
 
 SRCS        = main.cpp \
-			  Base.cpp
 
 SRCFILES    = $(addprefix $(SRCSDIR), $(SRCS))
 
