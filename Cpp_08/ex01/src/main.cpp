@@ -1,60 +1,97 @@
 
-#include "../includes/iter.hpp"
+#include "../includes/Span.hpp"
+#include <exception>
 #include <iostream>
 
-#define GRAY  "\033[90m"
-#define RED   "\033[1;31m"
-#define RESET "\033[0m"
-
-template <typename T>
-void doubler(T &value) {
-    value *= 2;
-}
-
-template <typename T>
-void printTest(const std::string &input,
-               const std::string &eResult,
-               T *arr, size_t len, void (*func)(T &))
+int main(void)
 {
-    std::cout << GRAY << input << RESET << std::endl;
-    std::cout << GRAY "attendu: " RED << eResult << RESET << std::endl;
-    std::cout << RED;
-    iter(arr, len, func);
-    std::cout << RESET << std::endl << std::endl;
-}
 
-int main(int argc, char **argv)
-{
-    if (argc == 2)
-    {
-        std::string arr[] = {argv[1]};
-        iter(arr, 1, print_elem<std::string>);
-        return 0;
+    //------------------SPAN ADDNUMBER---------------------//
+
+    std::cout << "SPAN ADDNUMBER" << std::endl << std::endl;
+    Span sp = Span(5);
+    try
+    {   
+        sp.addNumber(6);
+        sp.addNumber(3);
+        sp.addNumber(17);
+        sp.addNumber(9);
+        sp.addNumber(11);
     }
-    if (argc != 1)
-        return 0;
+	catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    try
+    {
+        std::cout << sp.shortestSpan() << std::endl;
+        std::cout << sp.longestSpan() << std::endl;
+    }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    std::cout << std::endl;
 
-    int   ints[]   = {1, 2, 3, 4, 5};
-    float floats[] = {1.1f, 2.2f, 3.3f};
-    char  chars[]  = {'a', 'b', 'c'};
-    int   dubs[]   = {10, 20, 30};
+    //------------------SPAN COPY ASSIGNEMENT---------------------//
 
-    printTest("iter sur int {1,2,3,4,5} -> print",
-              "1 2 3 4 5",
-              ints, 5, print_elem<int>);
+    std::cout << std::endl << "SPAN COPY ASSIGNEMENT" << std::endl << std::endl;
+    Span sp_copy(4);
+    
+    try{ sp_copy = sp; }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    try
+    {
+        std::cout << sp_copy.shortestSpan() << std::endl;
+        std::cout << sp_copy.longestSpan() << std::endl;
+    }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    std::cout << std::endl;
 
-    printTest("iter sur float {1.1, 2.2, 3.3} -> print",
-              "1.1 2.2 3.3",
-              floats, 3, print_elem<float>);
+    //------------------SPAN COPY BY CONSTRUCTOR---------------------//
 
-    printTest("iter sur char {a, b, c} -> print",
-              "a b c",
-              chars, 3, print_elem<char>);
+    std::cout << std::endl << "SPAN COPY BY CONSTRUCTOR" << std::endl << std::endl;
+    Span sp_copy2(sp);
+    try
+    {
+        std::cout << sp_copy2.shortestSpan() << std::endl;
+        std::cout << sp_copy2.longestSpan() << std::endl;
+    }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    std::cout << std::endl;
 
-    iter(dubs, 3, doubler<int>);
-    printTest("iter sur int {10,20,30} -> doubler puis print",
-              "20 40 60",
-              dubs, 3, print_elem<int>);
+    //------------------SPAN ADDNUMBERLIST---------------------//
+
+    std::cout << std::endl << "SPAN ADDNUMBERLIST" << std::endl << std::endl;
+    Span sp2 = Span(5);
+    std::vector<int> array;
+    array.push_back(6);
+    array.push_back(3);
+    array.push_back(17);
+    array.push_back(9);
+    array.push_back(11);
+    try
+    { sp2.addNumberRange(array.begin(), array.end()); }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    try
+    {
+        std::cout << sp2.shortestSpan() << std::endl;
+        std::cout << sp2.longestSpan() << std::endl;
+    }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    std::cout << std::endl;
+
+    //------------------TEST 10000+ NUMBERS---------------------//
+
+    std::cout << std::endl << "TEST 10000+ NUMBERS" << std::endl << std::endl;
+    Span sp3 = Span(20000);
+    std::vector<int> array2;
+    for (int i = 0; i < 20000; i++)
+        array2.push_back(i * 3 - i + i / 2);
+    try
+    { sp3.addNumberRange(array2.begin(), array2.end()); }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    try
+    {
+        std::cout << sp3.shortestSpan() << std::endl;
+        std::cout << sp3.longestSpan() << std::endl;
+    }
+    catch(const std::exception &e) { std::cout << e.what() << std::endl; }
+    std::cout << std::endl;
 
     return 0;
 }

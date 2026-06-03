@@ -6,7 +6,7 @@ CXXFLAGS    = -g -Wall -Wextra -Werror -std=c++98
 SRCSDIR     = src/
 
 SRCS        = main.cpp \
-
+				Span.cpp
 SRCFILES    = $(addprefix $(SRCSDIR), $(SRCS))
 
 OBJDIR      = .obj
