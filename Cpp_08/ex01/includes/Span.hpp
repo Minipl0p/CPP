@@ -1,0 +1,20 @@
+
+#pragma once
+
+#include <vector>
+
+class Span {
+	private:
+		std::vector<int>	_N;
+		unsigned int		_capacity;
+	public:
+		Span();
+		Span(unsigned int N);
+		Span(const Span &src);
+		~Span();
+		Span	operator=(const Span &src);
+
+		void	addNumber(unsigned int N);
+		void	shortestSpan();
+		void	longestSpan();
+};

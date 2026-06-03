@@ -23,7 +23,7 @@ template <typename T> class Array {
         Array &operator=(const Array &cpy) {
             if (this == &cpy)
 				return *this;
-			delete[] this->array;
+			delete this->array;
 			this->array = new T[cpy._size];
 			this->_size = cpy._size;
 			for (size_t i = 0; i < this->_size; i++)

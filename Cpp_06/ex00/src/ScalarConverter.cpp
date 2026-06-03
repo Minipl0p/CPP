@@ -1,7 +1,11 @@
 
 #include "../includes/ScalarConverter.hpp"
 #include <cctype>
+#include <cstdlib>
+#include <climits>
+#include <cfloat>
 #include <iomanip>
+#include <iostream>
 
 ScalarConverter::ScalarConverter(void) {}
 
@@ -48,6 +52,7 @@ void ScalarConverter::convert(std::string str)
 		std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(c) << "f" << std::endl;
 		std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(c) << std::endl;
 		std::cout.unsetf(std::ios::fixed);
+		std::cout << std::setprecision(6);
 		return;
 	}
 
@@ -64,6 +69,7 @@ void ScalarConverter::convert(std::string str)
 		std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(i) << "f" << std::endl;
 		std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(i) << std::endl;
 		std::cout.unsetf(std::ios::fixed);
+		std::cout << std::setprecision(6);
 		return;
 	}
 
@@ -100,12 +106,14 @@ void ScalarConverter::convert(std::string str)
 		else
 			std::cout << static_cast<float>(d) << "f" << std::endl;
 		std::cout.unsetf(std::ios::fixed);
+		std::cout << std::setprecision(6);
 		std::cout << "double: ";
 		if (d >= INT_MIN && d <= INT_MAX && d == static_cast<int>(d))
 			std::cout << std::fixed << std::setprecision(1) << static_cast<double>(d) << std::endl;
 		else
 			std::cout << static_cast<double>(d) << std::endl;
 		std::cout.unsetf(std::ios::fixed);
+		std::cout << std::setprecision(6);
 		return;
 	}
 
@@ -130,12 +138,14 @@ void ScalarConverter::convert(std::string str)
 		else
 			std::cout << static_cast<float>(f) << "f" << std::endl;
 		std::cout.unsetf(std::ios::fixed);
+		std::cout << std::setprecision(6);
 		std::cout << "double: ";
 		if (f >= static_cast<float>(INT_MIN) && f <= static_cast<float>(INT_MAX) && f == static_cast<int>(f))
 			std::cout << std::fixed << std::setprecision(1) << static_cast<double>(f) << std::endl;
 		else
 			std::cout << static_cast<double>(f) << std::endl;
 		std::cout.unsetf(std::ios::fixed);
+		std::cout << std::setprecision(6);
 		return;
 	}
 

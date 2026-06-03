@@ -1,5 +1,5 @@
 
-#include "../includes/Whatever.hpp"
+#include "../includes/whatever.hpp"
 #include <iostream>
 
 int main( void ) {
