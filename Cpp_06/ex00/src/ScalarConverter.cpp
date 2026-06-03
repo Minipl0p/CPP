@@ -47,19 +47,23 @@ void ScalarConverter::convert(std::string str)
 		std::cout << "int: " << static_cast<int>(c) << std::endl;
 		std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(c) << "f" << std::endl;
 		std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(c) << std::endl;
+		std::cout.unsetf(std::ios::fixed);
 		return;
 	}
 
 	char *end;
 	long int i = std::strtol(str.c_str(), &end, 10);
 	if (*end == '\0' && i >= INT_MIN && i <= INT_MAX) {
-		if (i >= 0 && i <= 255 && !std::isprint(i))
+		if (i < 0 || i > 255)
+			std::cout << "char: impossible" << std::endl;
+		else if (!std::isprint(i))
 			std::cout << "char: Non displayable" << std::endl;
-		else 
+		else
 			std::cout << "char: \'" << static_cast<char>(i) << "\'" << std::endl;
 		std::cout << "int: " << i << std::endl;
 		std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(i) << "f" << std::endl;
 		std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(i) << std::endl;
+		std::cout.unsetf(std::ios::fixed);
 		return;
 	}
 
@@ -91,20 +95,21 @@ void ScalarConverter::convert(std::string str)
 			std::cout << "+inff" << std::endl;
 		else if (d < -FLT_MAX)
 			std::cout << "-inff" << std::endl;
-		else if (d == static_cast<int>(d))
+		else if (d >= INT_MIN && d <= INT_MAX && d == static_cast<int>(d))
 			std::cout << std::fixed << std::setprecision(1) << static_cast<float>(d) << "f" << std::endl;
 		else
 			std::cout << static_cast<float>(d) << "f" << std::endl;
-
+		std::cout.unsetf(std::ios::fixed);
 		std::cout << "double: ";
-		if (d == static_cast<int>(d))
+		if (d >= INT_MIN && d <= INT_MAX && d == static_cast<int>(d))
 			std::cout << std::fixed << std::setprecision(1) << static_cast<double>(d) << std::endl;
 		else
 			std::cout << static_cast<double>(d) << std::endl;
+		std::cout.unsetf(std::ios::fixed);
 		return;
 	}
 
-	if (*end == 'f') {
+	if (*end == 'f' && *(end + 1) == '\0') {
 		float	f = static_cast<float>(d);
 
 		std::cout << "char: ";
@@ -120,17 +125,18 @@ void ScalarConverter::convert(std::string str)
 			std::cout << "impossible" << std::endl;
 
 		std::cout << "float: ";
-		if (f == static_cast<int>(f))
+		if (f >= static_cast<float>(INT_MIN) && f <= static_cast<float>(INT_MAX) && f == static_cast<int>(f))
 			std::cout << std::fixed << std::setprecision(1) << static_cast<float>(f) << "f" << std::endl;
 		else
 			std::cout << static_cast<float>(f) << "f" << std::endl;
-
+		std::cout.unsetf(std::ios::fixed);
 		std::cout << "double: ";
-		if (f == static_cast<int>(f))
+		if (f >= static_cast<float>(INT_MIN) && f <= static_cast<float>(INT_MAX) && f == static_cast<int>(f))
 			std::cout << std::fixed << std::setprecision(1) << static_cast<double>(f) << std::endl;
 		else
 			std::cout << static_cast<double>(f) << std::endl;
-		return;  
+		std::cout.unsetf(std::ios::fixed);
+		return;
 	}
 
 	std::cout << "char: impossible" << std::endl;

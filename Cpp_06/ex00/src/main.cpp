@@ -1,55 +1,67 @@
 
 #include "../includes/ScalarConverter.hpp"
+#include <iostream>
 
-int main(void)
+#define GRAY  "\033[90m"
+#define RED   "\033[1;31m"
+#define RESET "\033[0m"
+
+static void printTest(const std::string &input,
+                      const std::string &eChar,
+                      const std::string &eInt,
+                      const std::string &eFloat,
+                      const std::string &eDouble)
 {
-    // Cas speciaux
-    ScalarConverter::convert("nan");
-    ScalarConverter::convert("nanf");
-    ScalarConverter::convert("+inf");
-    ScalarConverter::convert("+inff");
-    ScalarConverter::convert("-inf");
-    ScalarConverter::convert("-inff");
+    std::cout << GRAY << input << RESET << std::endl;
+    std::cout << GRAY "attendu: " RED "char: "   << eChar   << RESET << std::endl;
+    std::cout << GRAY "attendu: " RED "int: "    << eInt    << RESET << std::endl;
+    std::cout << GRAY "attendu: " RED "float: "  << eFloat  << RESET << std::endl;
+    std::cout << GRAY "attendu: " RED "double: " << eDouble << RESET << std::endl;
+    ScalarConverter::convert(input);
+    std::cout << std::endl;
+}
 
-    std::cout << "---" << std::endl;
+int main(int argc, char **argv)
+{
+    if (argc == 2)
+    {
+        ScalarConverter::convert(argv[1]);
+        return 0;
+    }
+    if (argc != 1)
+        return 0;
 
-    // Char
-    ScalarConverter::convert("a");
-    ScalarConverter::convert("*");
-    ScalarConverter::convert("+");
+    printTest("nan",        "impossible", "impossible", "nanf",    "nan");
+    printTest("nanf",       "impossible", "impossible", "nanf",    "nan");
+    printTest("+inf",       "impossible", "impossible", "+inff",   "+inf");
+    printTest("+inff",      "impossible", "impossible", "+inff",   "+inf");
+    printTest("-inf",       "impossible", "impossible", "-inff",   "-inf");
+    printTest("-inff",      "impossible", "impossible", "-inff",   "-inf");
 
-    std::cout << "---" << std::endl;
+    printTest("a",          "'a'",        "97",         "97.0f",   "97.0");
+    printTest("*",          "'*'",        "42",         "42.0f",   "42.0");
+    printTest("+",          "'+'",        "43",         "43.0f",   "43.0");
 
-    // Int
-    ScalarConverter::convert("0");
-    ScalarConverter::convert("42");
-    ScalarConverter::convert("-42");
-    ScalarConverter::convert("65");       // ASCII 'A'
-    ScalarConverter::convert("2147483647");  // INT_MAX
-    ScalarConverter::convert("2147483648");  // INT_MAX + 1
+    printTest("0",          "Non displayable", "0",    "0.0f",    "0.0");
+    printTest("42",         "'*'",        "42",         "42.0f",   "42.0");
+    printTest("-42",        "impossible", "-42",        "-42.0f",  "-42.0");
+    printTest("65",         "'A'",        "65",         "65.0f",   "65.0");
+    printTest("2147483647", "impossible", "2147483647", "2147483648.0f", "2147483647.0");
+    printTest("2147483648", "impossible", "impossible", "impossible",   "impossible");
 
-    std::cout << "---" << std::endl;
+    printTest("42.0f",      "'*'",        "42",         "42.0f",   "42.0");
+    printTest("42.1f",      "'*'",        "42",         "42.1f",   "42.1");
+    printTest("-42.1f",     "impossible", "-42",        "-42.1f",  "-42.1");
+    printTest("4.29999f",   "impossible", "4",          "4.29999f","4.29999");
 
-    // Float
-    ScalarConverter::convert("42.0f");
-    ScalarConverter::convert("42.1f");
-    ScalarConverter::convert("-42.1f");
-    ScalarConverter::convert("4.29999f");
+    printTest("42.0",       "'*'",        "42",         "42.0f",   "42.0");
+    printTest("42.1",       "'*'",        "42",         "42.1f",   "42.1");
+    printTest("-42.1",      "impossible", "-42",        "-42.1f",  "-42.1");
 
-    std::cout << "---" << std::endl;
-
-    // Double
-    ScalarConverter::convert("42.0");
-    ScalarConverter::convert("42.1");
-    ScalarConverter::convert("-42.1");
-
-    std::cout << "---" << std::endl;
-
-    // Invalides
-    ScalarConverter::convert("abc");
-    ScalarConverter::convert("42.6fcoucou");
-    ScalarConverter::convert("42f.1");
-    ScalarConverter::convert("42.1.1");
+    printTest("abc",        "impossible", "impossible", "impossible", "impossible");
+    printTest("42.6fcoucou","impossible", "impossible", "impossible", "impossible");
+    printTest("42f.1",      "impossible", "impossible", "impossible", "impossible");
+    printTest("42.1.1",     "impossible", "impossible", "impossible", "impossible");
 
     return 0;
 }
