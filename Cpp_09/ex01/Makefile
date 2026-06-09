@@ -1,4 +1,4 @@
-NAME        = exec
+NAME        = RPN
 
 CXX         = c++
 CXXFLAGS    = -g -Wall -Wextra -Werror -std=c++98
@@ -6,7 +6,7 @@ CXXFLAGS    = -g -Wall -Wextra -Werror -std=c++98
 SRCSDIR     = src/
 
 SRCS        = main.cpp \
-				Span.cpp
+			  RPN.cpp
 SRCFILES    = $(addprefix $(SRCSDIR), $(SRCS))
 
 OBJDIR      = .obj
