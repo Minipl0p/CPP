@@ -11,8 +11,8 @@ class RPN {
     public:
         ~RPN(void);
 		RPN(void);
-        RPN(const RPN &cpy);
-        RPN &operator=(const RPN &src);
+		RPN(const RPN &cpy);
+		RPN &operator=(const RPN &src);
 
         std::string solveRPN(std::string calc);
 };
