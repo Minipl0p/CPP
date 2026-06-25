@@ -72,7 +72,7 @@ static void	buildFirstLevel(std::vector<t_node>& winners, std::vector<t_node>& l
 	}
 }
 
-static void	splitLevel(std::vector<t_node>& winners, std::vector<t_node>& losers,
+static std::vector<t_node>	splitLevel(std::vector<t_node> winners, std::vector<t_node>& losers,
 						const std::vector<t_node>& current, bool& hasRemainder, t_node& remainder)
 {
 	hasRemainder = false;
@@ -96,6 +96,7 @@ static void	splitLevel(std::vector<t_node>& winners, std::vector<t_node>& losers
 		hasRemainder = true;
 		remainder = current[current.size() - 1];
 	}
+	return winners;
 }
 
 static void	insertLoser(std::vector<t_node>& winners, t_node loser, t_node winnerRef)
@@ -143,7 +144,7 @@ static void	sortWinnersRec(std::vector<t_node>& current, std::vector<int> global
 	bool hasRemainder = false;
 	t_node remainder;
 
-	splitLevel(winners, losers, current, hasRemainder, remainder);
+	std::vector<t_node> newWinner = splitLevel(winners, losers, current, hasRemainder, remainder);
 
 	sortWinnersRec(winners, globalOrder);
 
