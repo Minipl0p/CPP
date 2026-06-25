@@ -1,4 +1,4 @@
-NAME        = exec
+NAME        = PmergeMe
 
 CXX         = c++
 CXXFLAGS    = -g -Wall -Wextra -Werror -std=c++98
@@ -6,6 +6,7 @@ CXXFLAGS    = -g -Wall -Wextra -Werror -std=c++98
 SRCSDIR     = src/
 
 SRCS        = main.cpp \
+			  PmergeMe.cpp
 
 SRCFILES    = $(addprefix $(SRCSDIR), $(SRCS))
 
