@@ -1,6 +1,7 @@
 
 #include "../includes/PmergeMe.hpp"
 #include <cmath>
+#include <utility>
 #include <vector>
 
 bool	PmergeMe::isPositiveInteger(const std::string& str)
@@ -46,113 +47,91 @@ bool	PmergeMe::parseInput(int argc, char** argv, std::vector<int>& input)
 	return true;
 }
 
-static void	buildFirstLevel(std::vector<t_node>& winners, std::vector<t_node>& losers,
-							const std::vector<int>& input, bool& hasRemainder, int& remainder)
+static void splitMainAndPend( const std::vector<int>& mainChain, int groupSize, std::vector<int>& main,
+							std::vector<int>& pend, std::vector<size_t>& winnerPos, std::vector<int>& leftover)
 {
-	hasRemainder = false;
+	size_t	n			= mainChain.size();
+	size_t	pairCount	= n / (groupSize * 2);
+	bool	hasLeftover	= (n % (groupSize * 2)) != 0;
 
-	for (size_t i = 0; i + 1 < input.size(); i += 2)
+	for (size_t i = 0; i < pairCount; i++)
 	{
-		if (input[i] > input[i + 1])
-		{
-			winners.push_back(std::make_pair(input[i], losers.size()));
-			losers.push_back(std::make_pair(input[i + 1], losers.size()));
-		}
-		else
-		{
-			winners.push_back(std::make_pair(input[i + 1], losers.size()));
-			losers.push_back(std::make_pair(input[i], losers.size()));
-		}
+		size_t	loserStart	= 2 * i * groupSize;
+		size_t	winnerStart	= (2 * i + 1) * groupSize;
+		size_t	winnerEnd	= (2 * i + 2) * groupSize;
+
+		std::vector<int>	loserBlock( mainChain.begin() + loserStart, mainChain.begin() + winnerStart);
+		std::vector<int>	winnerBlock( mainChain.begin() + winnerStart, mainChain.begin() + winnerEnd);
+
+		pend.insert(pend.end(), mainChain.begin() + loserStart, mainChain.begin() + winnerStart);
+        main.insert(main.end(), mainChain.begin() + winnerStart, mainChain.begin() + winnerEnd);
+        winnerPos.push_back(i);
 	}
 
-	if (input.size() % 2 != 0)
+	if (hasLeftover)
 	{
-		hasRemainder = true;
-		remainder = input[input.size() - 1];
+		size_t leftoverStart = pairCount * 2 * groupSize;
+		leftover.assign(mainChain.begin() + leftoverStart, mainChain.end());
 	}
 }
 
-static std::vector<t_node>	splitLevel(std::vector<t_node> winners, std::vector<t_node>& losers,
-						const std::vector<t_node>& current, bool& hasRemainder, t_node& remainder)
+static void swapBlockPairs(std::vector<int>& mainChain, int groupSize)
 {
-	hasRemainder = false;
+	size_t	n = mainChain.size();
+	size_t	pairCount = n / (groupSize * 2);
 
-	for (size_t i = 0; i + 1 < current.size(); i += 2)
-	{
-		if (current[i].first > current[i + 1].first)
-		{
-			winners.push_back(std::make_pair(current[i].first, losers.size()));
-			losers.push_back(std::make_pair(current[i + 1].first, losers.size()));
-		}
-		else
-		{
-			winners.push_back(std::make_pair(current[i + 1].first, losers.size()));
-			losers.push_back(std::make_pair(current[i].first, losers.size()));
-		}
-	}
+	for (size_t i = 0; i < pairCount; i++) {
+		size_t leftStart  = 2 * i * groupSize;
+		size_t rightStart = (2 * i + 1) * groupSize;
+		size_t leftIdx = rightStart - 1;
+		size_t rightIdx = (2 * i + 2) * groupSize - 1;
 
-	if (current.size() % 2 != 0)
-	{
-		hasRemainder = true;
-		remainder = current[current.size() - 1];
-	}
-	return winners;
-}
-
-static void	insertLoser(std::vector<t_node>& winners, t_node loser, t_node winnerRef)
-{
-	size_t insertPos = 0;
-
-	while (insertPos < winners.size()
-			&& winners[insertPos].first < winnerRef.first
-			&& winners[insertPos].first < loser.first)
-		++insertPos;
-
-	winners.insert(winners.begin() + insertPos, loser);
-}
-
-static void	insertLosers(std::vector<t_node>& winners, const std::vector<t_node>& losers, const std::vector<int>& globalOrder)
-{
-	std::vector<t_node>	tmpWinners = winners;
-	size_t				inserted = 0;
-
-	for (size_t i = 0; i < globalOrder.size() && inserted < tmpWinners.size(); ++i) {
-		if (globalOrder[i] >= (int)tmpWinners.size())
-			continue;
-		insertLoser(winners, losers[tmpWinners[globalOrder[i]].second], tmpWinners[globalOrder[i]]);
-		++inserted;
+		if (mainChain[leftIdx] > mainChain[rightIdx])
+			std::swap_ranges( mainChain.begin() + leftStart, mainChain.begin() + rightStart, mainChain.begin() + rightStart);
 	}
 }
 
-static void	insertRemainder(std::vector<t_node>& winners, t_node remainder)
+static void sortVectorRec(std::vector<int>& mainChain, int groupSize, std::vector<size_t> insertOrder)
 {
-	size_t insertPos = 0;
+    std::vector<int>	main;
+    std::vector<int>	pend;
+    std::vector<size_t>	winnerPos;
+    std::vector<int>	leftover;
 
-	while (insertPos < winners.size() && winners[insertPos].first < remainder.first)
-		++insertPos;
-
-	winners.insert(winners.begin() + insertPos, remainder);
-}
-
-static void	sortWinnersRec(std::vector<t_node>& current, std::vector<int> globalOrder)
-{
-	if (current.size() <= 1)
+    // ---------- Base case ----------
+	if (groupSize * 2 > mainChain.size())
 		return;
 
-	std::vector<t_node> winners;
-	std::vector<t_node> losers;
-	bool hasRemainder = false;
-	t_node remainder;
+    // ---------- 1. Swap par paires de blocs ----------
+	swapBlockPairs(mainChain, groupSize);
 
-	std::vector<t_node> newWinner = splitLevel(winners, losers, current, hasRemainder, remainder);
+    // ---------- 2. Récursion ----------
+    sortVectorRec(mainChain, groupSize * 2, insertOrder);
 
-	sortWinnersRec(winners, globalOrder);
+    // ---------- 3. Split : remplir main, pend, winnerPos, leftover ----------
+	splitMainAndPend(mainChain, groupSize, main, pend, winnerPos, leftover);
 
-	insertLosers(winners, losers, globalOrder);
-	if (hasRemainder)
-		insertRemainder(winners, remainder);
+    // ---------- 4. Insertion gratuite de b1 ----------
+    // main.insert(begin, pend[0])
+    // incrémenter tous les winnerPos de 1
 
-	current = winners;
+    // ---------- 5. Construire l'ordre Jacobsthal puis insérer pend[1..] ----------
+    // insertOrder = buildJacobsthalOrder(pend.size())
+    // pour chaque idx dans insertOrder :
+    //     upperBound = winnerPos[idx]
+    //     pos        = binarySearch(main, pend[idx], 0, upperBound)
+    //     main.insert(pos, pend[idx])
+    //     mettre à jour tous les winnerPos[k] >= pos en +1
+
+    // ---------- 6. Insertion du leftover ----------
+    // si hasLeftover :
+    //     pos = binarySearch(main, leftover, 0, main.size())
+    //     main.insert(pos, leftover)
+
+    // ---------- 7. Reconstruire mainChain ----------
+    // mainChain.clear()
+    // pour chaque bloc dans main :
+    //     mainChain.insert(end, bloc.begin(), bloc.end())
 }
 
 static void	globalOrderJacobsthal(std::vector<int>& globalOrder, int max)
@@ -198,24 +177,9 @@ void	PmergeMe::sortVector(std::vector<int>& input)
 	if (input.size() <= 1)
 		return;
 
-	std::vector<t_node>	winners;
-	std::vector<t_node>	losers;
 	std::vector<int>	globalOrder;
-	bool hasRemainder = false;
-	int remainder = 0;
 
 	globalOrderJacobsthal(globalOrder, input.size());
 
-	buildFirstLevel(winners, losers, input, hasRemainder, remainder);
-
-	sortWinnersRec(winners, globalOrder);
-
-	insertLosers(winners, losers, globalOrder);
-
-	if (hasRemainder)
-		insertRemainder(winners, std::make_pair(remainder, -1));
-
-	input.clear();
-	for (size_t i = 0; i < winners.size(); ++i)
-		input.push_back(winners[i].first);
+	sortVectorRec(input, 1);
 }
