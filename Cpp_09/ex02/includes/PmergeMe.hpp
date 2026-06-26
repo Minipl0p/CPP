@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <deque>
 #include <vector>
 #include <sstream>
 #include <climits>
@@ -12,6 +13,7 @@ class PmergeMe
 	public:
 		static bool	parseInput(int argc, char** argv, std::vector<int>& input);
 		static void	sortVector(std::vector<int>& input);
+		static void	sortDeque(std::deque<int>& input);
 
 	private:
 		static bool	isPositiveInteger(const std::string& str);

@@ -1,19 +1,14 @@
 
 #include "../includes/PmergeMe.hpp"
-
 #include <iostream>
 #include <vector>
-#include <cstdlib>
+#include <deque>
 #include <ctime>
 
-static void	printVector(const std::vector<int>& vec)
+static void	printVector(const std::vector<int>& v)
 {
-	for (size_t i = 0; i < vec.size(); ++i)
-	{
-		std::cout << vec[i];
-		if (i + 1 < vec.size())
-			std::cout << " ";
-	}
+	for (size_t i = 0; i < v.size(); ++i)
+		std::cout << v[i] << (i + 1 < v.size() ? " " : "");
 	std::cout << std::endl;
 }
 
@@ -25,28 +20,39 @@ int	main(int argc, char** argv)
 		return 1;
 	}
 
-	std::vector<int> input;
-	if (!PmergeMe::parseInput(argc, argv, input))
+	std::vector<int>	inputVector;
+	if (!PmergeMe::parseInput(argc, argv, inputVector))
 	{
 		std::cerr << "Error" << std::endl;
 		return 1;
 	}
 
-	std::cout << "Before: ";
-	printVector(input);
+	std::deque<int>		inputDeque(inputVector.begin(), inputVector.end());
 
-	clock_t start = clock();
-	PmergeMe::sortVector(input);
-	clock_t end = clock();
+	std::cout << "Before: ";
+	printVector(inputVector);
+
+	// ---- vector ----
+	clock_t	startVec = clock();
+	PmergeMe::sortVector(inputVector);
+	clock_t	endVec = clock();
 
 	std::cout << "After:  ";
-	printVector(input);
+	printVector(inputVector);
 
-	double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000.0;
+	double	elapsedVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1000000.0;
 
-	std::cout << "Time to process a range of " << input.size()
-			  << " elements with std::vector : "
-			  << elapsed << " us" << std::endl;
+	// ---- deque ----
+	clock_t	startDeq = clock();
+	PmergeMe::sortDeque(inputDeque);
+	clock_t	endDeq = clock();
+
+	double	elapsedDeq = static_cast<double>(endDeq - startDeq) / CLOCKS_PER_SEC * 1000000.0;
+
+	std::cout << "Time to process a range of " << inputVector.size()
+			  << " elements with std::vector : " << elapsedVec << " us" << std::endl;
+	std::cout << "Time to process a range of " << inputDeque.size()
+			  << " elements with std::deque  : " << elapsedDeq << " us" << std::endl;
 
 	return 0;
 }
