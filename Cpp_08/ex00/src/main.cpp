@@ -1,6 +1,7 @@
 
 #include "../includes/easyfind.hpp"
 
+#include <exception>
 #include <vector>
 #include <sstream>
 
@@ -28,5 +29,6 @@ int main(int ac, char **av) {
 			return (printError("This entry is not a int !", 1));
 		numbers.push_back(current);
 	}
-	easyfind(numbers, search);
+	try {easyfind(numbers, search);}
+	catch (std::exception& e) { std::cout << e.what() << std::endl; }
 }
